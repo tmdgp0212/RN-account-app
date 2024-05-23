@@ -26,15 +26,19 @@ const styles = StyleSheet.create({
   summaryContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 8,
-    backgroundColor: GlobalStyles.colors.primary100,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    borderRadius: 8,
+    backgroundColor: GlobalStyles.colors.primary700,
   },
   periodName: {
-    color: GlobalStyles.colors.primary800,
+    color: GlobalStyles.colors.primary50,
   },
   expensesSum: {
-    color: GlobalStyles.colors.primary800,
+    color: GlobalStyles.colors.primary50,
     fontWeight: "bold",
+    fontSize: 16,
   },
 });
 

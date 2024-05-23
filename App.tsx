@@ -29,7 +29,7 @@ const BottomTabNavigation = () => {
           fontSize: 12,
         },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        tabBarInactiveTintColor: "#fff",
+        tabBarInactiveTintColor: GlobalStyles.colors.primary200,
       }}
     >
       <BottomTabs.Screen
@@ -67,7 +67,9 @@ export default function App() {
           <Stack.Screen
             name="BottomTabs"
             component={BottomTabNavigation}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
 
           <Stack.Screen name="ManageExpenses" component={ManageExpenses} />
