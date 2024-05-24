@@ -14,7 +14,11 @@ const RecentExpenses = () => {
   });
 
   return (
-    <ExpensesOutput expenses={recentExpenses} expensesPeriod="지난 7일 간" />
+    <ExpensesOutput
+      expenses={recentExpenses}
+      expensesPeriod="지난 7일"
+      fallbackText="지난 7일 간 지출 내역이 없습니다."
+    />
   );
 };
 

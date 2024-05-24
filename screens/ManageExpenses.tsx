@@ -12,6 +12,7 @@ import { formatDate } from "../utils/date";
 
 import { ExpenseInputType } from "../types/expense";
 import { RootScreenPrarams } from "../types/root-screen-params";
+import Input from "../components/ManageExpenses/Input";
 
 type ScreenProps = NativeStackScreenProps<RootScreenPrarams, "ManageExpenses">;
 
@@ -34,7 +35,7 @@ const ManageExpenses = ({ route, navigation }: ScreenProps) => {
     if (name === "amount") {
       setExpenseInput((prev) => ({
         ...prev,
-        amount: value.replaceAll(",", ""),
+        amount: value === "" ? "0" : value.replaceAll(",", ""),
       }));
     } else {
       setExpenseInput((prev) => ({ ...prev, [name]: value }));
@@ -46,18 +47,24 @@ const ManageExpenses = ({ route, navigation }: ScreenProps) => {
   };
 
   const addExpenseHandler = () => {
-    if (isNaN(Number(expenseInput.amount)))
-      return Alert.alert("금액 형식이 올바르지 않습니다.");
-
-    const farmatedExpense = {
-      ...expenseInput,
+    const formatedExpense = {
+      description: expenseInput.description.trim(),
       amount: parseInt(expenseInput.amount),
+      date: expenseInput.date,
     };
 
+    if (formatedExpense.description.length <= 0)
+      return Alert.alert("설명 형식이 올바르지 않습니다.");
+    if (isNaN(formatedExpense.amount) || formatedExpense.amount < 0)
+      return Alert.alert("금액 형식이 올바르지 않습니다.");
+    if (new Date(formatedExpense.date).toString() === "Invalid Date") {
+      return Alert.alert("날짜 형식이 올바르지 않습니다.");
+    }
+
     if (expenseId) {
-      updateExpense(expenseId, farmatedExpense);
+      updateExpense(expenseId, formatedExpense);
     } else {
-      addExpense(farmatedExpense);
+      addExpense(formatedExpense);
     }
 
     navigation.goBack();
@@ -86,27 +93,33 @@ const ManageExpenses = ({ route, navigation }: ScreenProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.label}>설명</Text>
-        <TextInput
-          style={styles.textInput}
+        <Input
+          label={"설명"}
           id="description"
           value={expenseInput.description}
           onChangeText={(value) => onChangeInputHandler("description", value)}
         />
-        <Text style={styles.label}>금액</Text>
-        <TextInput
-          style={styles.textInput}
+        <Input
+          label={"금액"}
+          icon="￦"
           id="amount"
           value={parseInt(expenseInput.amount).toLocaleString()}
-          keyboardType="number-pad"
+          keyboardType="decimal-pad"
           onChangeText={(value) => onChangeInputHandler("amount", value)}
           placeholder="0"
         />
-        <Text style={styles.label}>날짜</Text>
-        <TextInput
-          style={styles.textInput}
+        <Input
+          label="날짜"
+          icon={<Ionicons name="calendar-clear" size={18} />}
+          id="date"
+          keyboardType="number-pad"
+          placeholder="YYYY-MM-DD"
+        />
+        <Input
+          label={"날짜"}
           id="date"
           value={formatDate(expenseInput.date)}
+          maxLength={10}
         />
         <View style={styles.buttonsContainer}>
           <PrimaryButton
@@ -158,20 +171,10 @@ const styles = StyleSheet.create({
   deleteContainer: {
     alignItems: "center",
     borderTopWidth: 1,
-    borderTopColor: GlobalStyles.colors.primary800,
+    borderTopColor: GlobalStyles.colors.primary700,
   },
   button: {
     width: 100,
-  },
-  label: {
-    marginTop: 8,
-  },
-  textInput: {
-    paddingVertical: 4,
-    paddingHorizontal: 16,
-    marginVertical: 4,
-    borderRadius: 8,
-    backgroundColor: "#fff",
   },
 });
 
