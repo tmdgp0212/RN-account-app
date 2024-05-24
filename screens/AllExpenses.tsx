@@ -1,9 +1,10 @@
 import React from "react";
-import { View } from "react-native";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
+import { useExpenses } from "../store/expenseStore";
 
 const AllExpenses = () => {
-  return <ExpensesOutput expenses={[]} expensesPeriod="총 지출 금액" />;
+  const expenses = useExpenses();
+  return <ExpensesOutput expenses={expenses} expensesPeriod="총 지출 금액" />;
 };
 
 export default AllExpenses;
