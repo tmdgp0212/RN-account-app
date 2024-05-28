@@ -1,15 +1,10 @@
 import { create } from "zustand";
-import { ExpenseType } from "../types/expense";
-
-export interface ExpenseInputType {
-  description: string;
-  amount: number;
-  date: Date;
-}
+import { ExpenseInputType, ExpenseType } from "../types/expense";
 
 interface ExpenseStoreState {
   expenses: ExpenseType[];
   actions: {
+    setExpenses: (expenses: ExpenseType[]) => void;
     addExpense: (input: ExpenseInputType) => void;
     updateExpense: (id: string, input: ExpenseInputType) => void;
     removeExpense: (id: string) => void;
@@ -17,21 +12,9 @@ interface ExpenseStoreState {
 }
 
 const useExpenseStore = create<ExpenseStoreState>((set) => ({
-  expenses: [
-    {
-      id: "e1",
-      description: "조개구이",
-      amount: 34000,
-      date: new Date("2024-05-20"),
-    },
-    {
-      id: "e2",
-      description: "파리바게트",
-      amount: 15700,
-      date: new Date("2024-5-2"),
-    },
-  ],
+  expenses: [],
   actions: {
+    setExpenses: (expenses) => set({ expenses }),
     addExpense: (input) =>
       set((state) => ({
         expenses: [

@@ -12,11 +12,24 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { GlobalStyles } from "./constants/styles";
 import { RootScreenPrarams } from "./types/root-screen-params";
+import { useEffect } from "react";
+import { fetchExpense } from "./utils/http";
+import { useExpenseActions } from "./store/expenseStore";
 
 const Stack = createNativeStackNavigator<RootScreenPrarams>();
 const BottomTabs = createBottomTabNavigator<RootScreenPrarams>();
 
 const BottomTabNavigation = () => {
+  // const { setExpenses } = useExpenseActions();
+
+  // useEffect(() => {
+  //   const getExpenses = async () => {
+  //     const expenses = await fetchExpense();
+  //     setExpenses(expenses);
+  //   };
+
+  //   getExpenses();
+  // }, []);
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import IconButton from "../components/UI/IconButton";
@@ -10,9 +10,10 @@ import { useExpenseActions, useExpenses } from "../store/expenseStore";
 import { GlobalStyles } from "../constants/styles";
 import { formatDate } from "../utils/date";
 
-import { ExpenseInputType } from "../types/expense";
+import { ExpenseFormType } from "../types/expense";
 import { RootScreenPrarams } from "../types/root-screen-params";
 import Input from "../components/ManageExpenses/Input";
+import { storeExpense } from "../utils/http";
 
 type ScreenProps = NativeStackScreenProps<RootScreenPrarams, "ManageExpenses">;
 
@@ -25,7 +26,7 @@ const ManageExpenses = ({ route, navigation }: ScreenProps) => {
 
   const originExpense = expenses.find((expense) => expense.id === expenseId);
 
-  const [expenseInput, setExpenseInput] = useState<ExpenseInputType>({
+  const [expenseInput, setExpenseInput] = useState<ExpenseFormType>({
     description: "",
     amount: "0",
     date: new Date(),
@@ -64,6 +65,7 @@ const ManageExpenses = ({ route, navigation }: ScreenProps) => {
     if (expenseId) {
       updateExpense(expenseId, formatedExpense);
     } else {
+      storeExpense(formatedExpense);
       addExpense(formatedExpense);
     }
 

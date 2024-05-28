@@ -1,6 +1,12 @@
-export interface ExpenseInputType {
+export interface ExpenseFormType {
   description: string;
   amount: string;
+  date: Date;
+}
+
+export interface ExpenseInputType {
+  description: string;
+  amount: number;
   date: Date;
 }
 
